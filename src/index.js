@@ -55,6 +55,7 @@ function numberOfCountries(arrayOfCountries) {
     );
   }
   if (arrayOfCountries.length === 0) {
+    inputEl.value = '';
     Notiflix.Notify.failure('"Oops, there is no country with that name"');
   }
 }
