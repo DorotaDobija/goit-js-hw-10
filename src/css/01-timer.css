@@ -33,16 +33,20 @@ font-weight: 500;
 font-size: 16px;
 line-height: 1.5;
 letter-spacing: 0.04em;
-color: #989898;
+color: #fff;
 border: none;
 border-radius: 8px;
 outline: none;
-background-color: #CFCFCF;
+background-color: #4E75FF;
 padding: 8px 16px;
 }
 button:hover {
     color: #fff;
     background-color: #6C8CFF
+}
+button:disabled {
+color: #989898;
+background-color: #CFCFCF;
 }
 #datetime-picker {
 font-family: "Montserrat", sans-serif;

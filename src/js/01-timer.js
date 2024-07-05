@@ -7,6 +7,7 @@ const daysEl = document.querySelector("span[data-days]");
 const hoursEl = document.querySelector("span[data-hours]");
 const minutesEl = document.querySelector("span[data-minutes]");
 const secondsEl = document.querySelector("span[data-seconds]");
+const timerEl = document.querySelector(".timer")
 
 let userSelectedDate = 0;
 
@@ -16,11 +17,18 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
 onClose(selectedDates) {
-    if (selectedDates[0].getTime() < Date.now()) {
-        window.alert("Please choose a date in the future");
-    }
+  if (selectedDates[0].getTime() < Date.now()) {
+    window.alert("Please choose a date in the future");
+    daysEl.textContent = `00`;
+    hoursEl.textContent = `00`;
+    minutesEl.textContent = `00`;
+    secondsEl.textContent = `00`;
+    btn.setAttribute("disabled", "")
+  } else if (selectedDates[0].getTime() > Date.now()) {
+    btn.removeAttribute("disabled");
     userSelectedDate = selectedDates[0].getTime();
-    dateFormatToAdd(timeDiference(userSelectedDate, convertMs))
+    dateFormatToAdd(timeDiference(userSelectedDate, convertMs));
+  }
   },
 };
 
