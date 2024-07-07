@@ -1,13 +1,13 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 const btn = document.querySelector("button");
 const daysEl = document.querySelector("span[data-days]");
 const hoursEl = document.querySelector("span[data-hours]");
 const minutesEl = document.querySelector("span[data-minutes]");
 const secondsEl = document.querySelector("span[data-seconds]");
-const timerEl = document.querySelector(".timer")
 
 let userSelectedDate = 0;
 
@@ -18,25 +18,26 @@ const options = {
   minuteIncrement: 1,
 onClose(selectedDates) {
   if (selectedDates[0].getTime() < Date.now()) {
-    window.alert("Please choose a date in the future");
-    daysEl.textContent = `00`;
-    hoursEl.textContent = `00`;
-    minutesEl.textContent = `00`;
-    secondsEl.textContent = `00`;
-    btn.setAttribute("disabled", "")
+    btn.setAttribute("disabled", "");
+    iziToast.error({
+    title: 'Error',
+    message: 'Please choose a date in the future',
+    position: 'topRight',
+});
   } else if (selectedDates[0].getTime() > Date.now()) {
     btn.removeAttribute("disabled");
     userSelectedDate = selectedDates[0].getTime();
-    dateFormatToAdd(timeDiference(userSelectedDate, convertMs));
   }
   },
 };
 
 flatpickr("#datetime-picker", options);
 
+let counteredTime = 0;
+
 const timeDiference = (someDate, callback) => {
     const timeNow = Date.now();
-    const counteredTime = someDate - timeNow ;
+    counteredTime = someDate - timeNow ;
     return callback(counteredTime);
 }
 
@@ -54,16 +55,36 @@ const convertMs = (ms) => {
   return { days, hours, minutes, seconds };
 } 
 
-
-
-const dateFormatToAdd = ({ days, hours, minutes, seconds }) => {
-    daysEl.textContent = `${days}`;
-    hoursEl.textContent = `${hours}`;
-    minutesEl.textContent = `${minutes}`;
-    secondsEl.textContent = `${seconds}`;
+const addLeadingZero = (value) => {
+  const arrOfValues = Object.values(value);
+  return arrOfValues
+    .map((item) => item
+      .toString()
+      .padStart(2, "0"));
 }
 
+const dateFormatToAdd = ({ days, hours, minutes, seconds }) => {
+ const formatToAdd = addLeadingZero({ days, hours, minutes, seconds });
+  daysEl.textContent = `${formatToAdd[0]}`;
+  hoursEl.textContent = `${formatToAdd[1]}`;
+  minutesEl.textContent = `${formatToAdd[2]}`;
+  secondsEl.textContent = `${formatToAdd[3]}`;
+}
 
+const clearFunc = (timerId) => {
+      clearInterval(timerId);
+      btn.setAttribute("disabled", "");
+} 
+  
+const counterChange = () => {
+  dateFormatToAdd(timeDiference(userSelectedDate, convertMs));
+  const timerInterval = setInterval(() => {
+    userSelectedDate--;
+    dateFormatToAdd(timeDiference(userSelectedDate, convertMs));
+     if (counteredTime < 1000) {
+      clearFunc(timerInterval)
+    };
+  }, 1_000);
+}
 
-
-
+btn.addEventListener("click", counterChange);
