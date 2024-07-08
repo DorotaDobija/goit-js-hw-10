@@ -20,7 +20,7 @@ onClose(selectedDates) {
   if (selectedDates[0].getTime() < Date.now()) {
     btn.setAttribute("disabled", "");
     iziToast.error({
-    title: 'Error',
+    title: '',
     message: 'Please choose a date in the future',
     position: 'topRight',
 });
