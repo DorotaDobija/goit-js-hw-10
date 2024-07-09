@@ -11,6 +11,9 @@ const secondsEl = document.querySelector("span[data-seconds]");
 
 let userSelectedDate = 0;
 
+// - Mam teraz możliwość wybrania daty z przyszłości i kliknięcia 'start'
+//   - Po tym jak już data jest wybrana to mogę znów klikać na kalendarz 
+// i bez wciskania 'start' data automatycznie aktualizuje się - przyjrzyj się temu proszę. 
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -64,7 +67,8 @@ const addLeadingZero = (value) => {
 }
 
 const dateFormatToAdd = ({ days, hours, minutes, seconds }) => {
- const formatToAdd = addLeadingZero({ days, hours, minutes, seconds });
+  btn.setAttribute("disabled", "");
+  const formatToAdd = addLeadingZero({ days, hours, minutes, seconds });
   daysEl.textContent = `${formatToAdd[0]}`;
   hoursEl.textContent = `${formatToAdd[1]}`;
   minutesEl.textContent = `${formatToAdd[2]}`;
