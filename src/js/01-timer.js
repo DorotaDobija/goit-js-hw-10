@@ -8,6 +8,7 @@ const daysEl = document.querySelector("span[data-days]");
 const hoursEl = document.querySelector("span[data-hours]");
 const minutesEl = document.querySelector("span[data-minutes]");
 const secondsEl = document.querySelector("span[data-seconds]");
+const inputEl = document.querySelector("#datetime-picker")
 
 let userSelectedDate = 0;
 
@@ -34,7 +35,7 @@ onClose(selectedDates) {
   },
 };
 
-flatpickr("#datetime-picker", options);
+flatpickr(inputEl, options);
 
 let counteredTime = 0;
 
@@ -73,6 +74,7 @@ const dateFormatToAdd = ({ days, hours, minutes, seconds }) => {
   hoursEl.textContent = `${formatToAdd[1]}`;
   minutesEl.textContent = `${formatToAdd[2]}`;
   secondsEl.textContent = `${formatToAdd[3]}`;
+  inputEl.setAttribute("disabled", "");
 }
 
 const clearFunc = (timerId) => {
